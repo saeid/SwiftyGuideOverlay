@@ -170,6 +170,17 @@ class GDOverlay: UIView {
         }
     }
     
+    private var _navHeight: CGFloat = 0.0
+    var navHeight: CGFloat{
+        get{
+            return _navHeight
+        }
+        set{
+            _navHeight = newValue
+        }
+    }
+    
+    
     //MARK: - Self Init
     var delegate: SkipOverlayDelegate? = nil
     private var superView: UIView!
@@ -185,7 +196,7 @@ class GDOverlay: UIView {
         super.init(coder: aDecoder)
     }
     
-    func drawOverlay(superView: UIView, containerWidth: CGFloat, descText: String, toView: UIView){
+    func drawOverlay(superView: UIView, containerWidth: CGFloat, descText: String, toView: UIView, isCircle: Bool){
         self.superView = superView
         self.helpView = toView
         let targetCenter = CGPointMake(CGRectGetMinX(toView.frame), CGRectGetMidY(toView.frame))
@@ -199,7 +210,7 @@ class GDOverlay: UIView {
         
         layoutIfNeeded()
         if _highlightView{
-            self.unmaskView(toView)
+            self.unmaskView(toView, isCircle: isCircle)
         }
         
         self.createTargetView(toView.frame, center: targetCenter)
@@ -304,18 +315,20 @@ class GDOverlay: UIView {
         var controlPoint: CGPoint!
         
         let dir = LineDirection.randomDir()
+        let offsetTop: CGFloat = highlightView ? 15.0 : 0.0
+        let offsetBottom: CGFloat = highlightView ? -15.0 : 0.0
         
         switch section{
         case 1:
             if dir == .left{
                 startPoint = CGPointMake(CGRectGetMinX(contView.frame) - 5, CGRectGetMinY(contView.frame) - 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) - 5, CGRectGetMaxY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMinX(targetRect) - 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x - 50, cp.y)
             }else{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame), CGRectGetMinY(contView.frame) - 20)
-                endPoint = CGPointMake(CGRectGetMaxX(targetRect) + 5, CGRectGetMaxY(targetRect))
+                endPoint = CGPointMake(CGRectGetMaxX(targetRect) + 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x + 50, cp.y)
@@ -326,51 +339,51 @@ class GDOverlay: UIView {
         case 2:
             if dir == .left{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame) + CGRectGetMidX(contView.frame) / 4, CGRectGetMinY(contView.frame) - 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) + 5, CGRectGetMaxY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMinX(targetRect) + 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x - 50, cp.y)
             }else{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame) + CGRectGetMidX(contView.frame) / 4, CGRectGetMinY(contView.frame) - 10)
-                endPoint = CGPointMake(CGRectGetMidX(targetRect) + 5, CGRectGetMaxY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMidX(targetRect) + 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x + 50, cp.y)
             }
-
+            
             break
             
         case 3:
             if dir == .left{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame) - CGRectGetMidX(contView.frame) / 4, CGRectGetMaxY(contView.frame) + 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) + 5, CGRectGetMinY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMinX(targetRect) + 5, CGRectGetMinY(targetRect) + self._navHeight + offsetBottom)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x - 50, cp.y)
             }else{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame) - CGRectGetMidX(contView.frame) / 4, CGRectGetMaxY(contView.frame) + 10)
-                endPoint = CGPointMake(CGRectGetMaxX(targetRect), CGRectGetMinY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMaxX(targetRect), CGRectGetMinY(targetRect) + self._navHeight + offsetBottom)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x + 50, cp.y)
             }
-
+            
             break
         case 4:
             if dir == .left{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame) + CGRectGetMidX(contView.frame) / 4, CGRectGetMaxY(contView.frame) + 20)
-                endPoint = CGPointMake(CGRectGetMidX(targetRect) + 5, CGRectGetMinY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMidX(targetRect) + 5, CGRectGetMinY(targetRect) + self._navHeight + offsetBottom)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x + 50, cp.y)
             }else{
                 startPoint = CGPointMake(CGRectGetMidX(contView.frame), CGRectGetMaxY(contView.frame) + 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) - 5, CGRectGetMidY(targetRect))
-
+                endPoint = CGPointMake(CGRectGetMinX(targetRect) - 5, CGRectGetMidY(targetRect) + self._navHeight + offsetBottom)
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPointMake(cp.x - 50, cp.y)
             }
-
+            
             break
             
         default:
@@ -463,30 +476,15 @@ class GDOverlay: UIView {
         return screenShot
     }
     
-    func unmaskView(toView: UIView){
+    func unmaskView(toView: UIView, isCircle: Bool){
         let maskLayer = CAShapeLayer()
         let path = CGPathCreateMutable()
         
-        var radius: CGFloat = toView.frame.width * 0.6
-        var xOffset: CGFloat = CGRectGetMidX(toView.frame)
-        var yOffset: CGFloat = CGRectGetMidY(toView.frame)
+        let radius: CGFloat = isCircle ? toView.frame.width * 0.5 : 20
+        let clipPath: CGPathRef = UIBezierPath(roundedRect: CGRectMake(toView.frame.origin.x - 10, toView.frame.origin.y + self._navHeight - 10, toView.frame.width + 20, toView.frame.height + 20), cornerRadius: radius).CGPath
         
-        
-        if toView.tag == 0{
-            radius = 20
-            xOffset = CGRectGetMinX(toView.frame) + 13
-            yOffset = CGRectGetMinY(toView.frame) + (-19)
-        }
-        if toView.tag == 1{
-            radius = 20
-            xOffset = CGRectGetMinX(toView.frame) + 16
-            yOffset = CGRectGetMinY(toView.frame) + (-13)
-        }
-        
-        CGPathAddRect(path, nil, CGRectMake(toView.frame.minX - 5, toView.frame.minY - 5, toView.frame.width + 10, toView.frame.height + 10))
-        //        CGPathAddArc(path, nil, xOffset, yOffset + radius * 2.35, radius, 0.0, 2 * 3.14, false)
+        CGPathAddPath(path, nil, clipPath)
         CGPathAddRect(path, nil, CGRectMake(0, 0, self.frame.width, self.frame.height))
-        
         
         maskLayer.backgroundColor = UIColor.blackColor().CGColor
         maskLayer.path = path
@@ -549,6 +547,13 @@ extension GDOverlay{
     var topView: UIView{
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.window!
+    }
+    
+    func calculateNavHeight(vc: UIViewController) -> CGFloat{
+        if let nav = vc.navigationController{
+            return nav.navigationBar.frame.height + UIApplication.sharedApplication().statusBarFrame.height
+        }
+        return 0.0
     }
 }
 
