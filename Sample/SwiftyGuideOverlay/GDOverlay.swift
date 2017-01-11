@@ -3,7 +3,7 @@
 //  SwiftyGuideOverlay
 //
 //  Created by Saeid Basirnia on 8/16/16.
-//  Copyright © 2016 Betternet. All rights reserved.
+//  Copyright © 2016 Saeidbsn. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ enum LineDirection: UInt32{
     case left
     case right
     
-    private static let _count: LineDirection.RawValue = {
+     static let _count: LineDirection.RawValue = {
         var maxValue: UInt32 = 0
         while let _ = LineDirection(rawValue: maxValue) {
             maxValue += 1
@@ -40,7 +40,7 @@ protocol SkipOverlayDelegate{
 class GDOverlay: UIView {
     
     //MARK: - Attributes
-    private var _backColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+     var _backColor: UIColor = UIColor.black.withAlphaComponent(0.5)
     var backColor: UIColor{
         get{
             return _backColor
@@ -50,7 +50,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _boxBackColor: UIColor = UIColor.whiteColor().colorWithAlphaComponent(0.05)
+     var _boxBackColor: UIColor = UIColor.white.withAlphaComponent(0.05)
     var boxBackColor: UIColor{
         get{
             return _boxBackColor
@@ -60,7 +60,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _boxBorderColor: UIColor = UIColor.whiteColor()
+    var _boxBorderColor: UIColor = UIColor.white
     var boxBorderColor: UIColor{
         get{
             return _boxBorderColor
@@ -70,7 +70,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _showBorder: Bool = true
+    var _showBorder: Bool = true
     var showBorder: Bool{
         get{
             return _showBorder
@@ -80,7 +80,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _lineType: LineType = .dash_bubble
+    var _lineType: LineType = .dash_bubble
     var lineType: LineType{
         get{
             return _lineType
@@ -90,7 +90,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _multiGuide: Bool = false
+    var _multiGuide: Bool = false
     var multiGuide: Bool{
         get{
             return _multiGuide
@@ -100,7 +100,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _labelFont: UIFont = UIFont.boldSystemFontOfSize(14)
+    var _labelFont: UIFont = UIFont.boldSystemFont(ofSize: 14)
     var labelFont: UIFont{
         get{
             return _labelFont
@@ -110,7 +110,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _labelColor: UIColor = UIColor.whiteColor()
+    var _labelColor: UIColor = UIColor.white
     var labelColor: UIColor{
         get{
             return _labelColor
@@ -120,7 +120,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _arrowColor: UIColor = UIColor.whiteColor()
+    var _arrowColor: UIColor = UIColor.white
     var arrowColor: UIColor{
         get{
             return _arrowColor
@@ -130,7 +130,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _headColor: UIColor = UIColor.whiteColor()
+    var _headColor: UIColor = UIColor.white
     var headColor: UIColor{
         get{
             return _headColor
@@ -140,7 +140,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _arrowWidth: CGFloat = 2.0
+    var _arrowWidth: CGFloat = 2.0
     var arrowWidth: CGFloat{
         get{
             return _arrowWidth
@@ -150,7 +150,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _headRadius: CGFloat = 4.0
+    var _headRadius: CGFloat = 4.0
     var headRadius: CGFloat{
         get{
             return _headRadius
@@ -160,7 +160,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _highlightView: Bool = false
+    var _highlightView: Bool = false
     var highlightView: Bool{
         get{
             return _highlightView
@@ -170,7 +170,7 @@ class GDOverlay: UIView {
         }
     }
     
-    private var _navHeight: CGFloat = 0.0
+    var _navHeight: CGFloat = 0.0
     var navHeight: CGFloat{
         get{
             return _navHeight
@@ -183,11 +183,11 @@ class GDOverlay: UIView {
     
     //MARK: - Self Init
     var delegate: SkipOverlayDelegate? = nil
-    private var superView: UIView!
-    private var helpView: UIView!
+     var superView: UIView!
+     var helpView: UIView!
     
     init(){
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.frame = self.topView.frame
         self.backgroundColor = _backColor
     }
@@ -196,15 +196,14 @@ class GDOverlay: UIView {
         super.init(coder: aDecoder)
     }
     
-    func drawOverlay(superView: UIView, containerWidth: CGFloat, descText: String, toView: UIView, isCircle: Bool){
+    func drawOverlay(_ superView: UIView, containerWidth: CGFloat, descText: String, toView: UIView, isCircle: Bool){
         self.superView = superView
         self.helpView = toView
-        let targetCenter = CGPointMake(CGRectGetMinX(toView.frame), CGRectGetMidY(toView.frame))
+        let targetCenter = CGPoint(x: toView.frame.minX, y: toView.frame.midY)
         self.createBackgroundView()
         self.createContainerView(containerWidth)
         self.descLabel.text = descText
-        self.setSection(targetCenter)
-        
+
         self.topView.addSubview(self)
         setupContainerViewConstraints(self.topView, toPoint: targetCenter)
         
@@ -217,13 +216,13 @@ class GDOverlay: UIView {
     }
     
     //MARK: - Background View
-    private var backgroundView: UIView!
+     var backgroundView: UIView!
     
     func createBackgroundView(){
         backgroundView = UIView()
         backgroundView.frame = self.frame
-        backgroundView.userInteractionEnabled = true
-        backgroundView.backgroundColor = UIColor.clearColor()
+        backgroundView.isUserInteractionEnabled = true
+        backgroundView.backgroundColor = UIColor.clear
         
         self.addSubview(backgroundView)
         self.setupGestures()
@@ -237,20 +236,20 @@ class GDOverlay: UIView {
         self.backgroundView.addGestureRecognizer(tapGest)
     }
     
-    func GotoNext(sender: UIGestureRecognizer){
+    func GotoNext(_ sender: UIGestureRecognizer){
         self.backgroundView.removeFromSuperview()
         self.delegate?.onSkipSignal()
     }
     
     
     //MARK: - Description Label
-    private var descLabel: UILabel = {
+     var descLabel: UILabel = {
         let lbl = UILabel()
         lbl.numberOfLines = 0
-        lbl.lineBreakMode = .ByWordWrapping
+        lbl.lineBreakMode = .byWordWrapping
         lbl.sizeToFit()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.textAlignment = .Center
+        lbl.textAlignment = .center
         return lbl
     }()
     
@@ -261,17 +260,17 @@ class GDOverlay: UIView {
     }
     
     //MARK: - Container View
-    private var contView: UIView!
+     var contView: UIView!
     
-    func createContainerView(width: CGFloat){
+    func createContainerView(_ width: CGFloat){
         self.descLabel.font = _labelFont
         self.descLabel.textColor = _labelColor
         
         contView = UIView()
-        contView.frame = CGRectMake(0, 0, width, 50)
+        contView.frame = CGRect(x: 0, y: 0, width: width, height: 50)
         contView.backgroundColor = _boxBackColor
         if _showBorder{
-            contView.layer.borderColor = _boxBorderColor.CGColor
+            contView.layer.borderColor = _boxBorderColor.cgColor
             contView.layer.borderWidth = 2
             contView.layer.cornerRadius = 5
         }
@@ -282,18 +281,18 @@ class GDOverlay: UIView {
     }
     
     func setupLabelConstraints(){
-        let left = NSLayoutConstraint(item: self.descLabel, attribute: .Left, relatedBy: .Equal, toItem: self.contView, attribute: .Left, multiplier: 1.0, constant: 10.0)
-        let right = NSLayoutConstraint(item: self.descLabel, attribute: .Right, relatedBy: .Equal, toItem: self.contView, attribute: .Right, multiplier: 1.0, constant: -10.0)
-        let top = NSLayoutConstraint(item: self.descLabel, attribute: .Top, relatedBy: .Equal, toItem: self.contView, attribute: .Top, multiplier: 1.0, constant: 10.0)
-        let bottom = NSLayoutConstraint(item: self.descLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.contView, attribute: .Bottom, multiplier: 1.0, constant: -10.0)
+        let left = NSLayoutConstraint(item: self.descLabel, attribute: .left, relatedBy: .equal, toItem: self.contView, attribute: .left, multiplier: 1.0, constant: 10.0)
+        let right = NSLayoutConstraint(item: self.descLabel, attribute: .right, relatedBy: .equal, toItem: self.contView, attribute: .right, multiplier: 1.0, constant: -10.0)
+        let top = NSLayoutConstraint(item: self.descLabel, attribute: .top, relatedBy: .equal, toItem: self.contView, attribute: .top, multiplier: 1.0, constant: 10.0)
+        let bottom = NSLayoutConstraint(item: self.descLabel, attribute: .bottom, relatedBy: .equal, toItem: self.contView, attribute: .bottom, multiplier: 1.0, constant: -10.0)
         
         contView.addConstraints([left, right, top, bottom])
         
-        let width = NSLayoutConstraint(item: self.descLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: self.contView.frame.width - 10)
+        let width = NSLayoutConstraint(item: self.descLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: self.contView.frame.width - 10)
         self.descLabel.addConstraint(width)
     }
     
-    func setupContainerViewConstraints(toView: UIView, toPoint: CGPoint){
+    func setupContainerViewConstraints(_ toView: UIView, toPoint: CGPoint){
         let section = setSection(toPoint)
         let consts = setSectionPoint(section, toView: toView)
         
@@ -301,14 +300,14 @@ class GDOverlay: UIView {
     }
     
     //MARK: - Target Object View
-    func calcCenterPoint(start: CGPoint, end: CGPoint) -> CGPoint{
+    func calcCenterPoint(_ start: CGPoint, end: CGPoint) -> CGPoint{
         let x = (start.x + end.x) / 2
         let y = (start.y + end.y) / 2
         
-        return CGPointMake(x, y)
+        return CGPoint(x: x, y: y)
     }
     
-    func createTargetView(targetRect: CGRect, center: CGPoint){
+    func createTargetView(_ targetRect: CGRect, center: CGPoint){
         let section = setSection(center)
         var startPoint: CGPoint!
         var endPoint: CGPoint!
@@ -321,67 +320,67 @@ class GDOverlay: UIView {
         switch section{
         case 1:
             if dir == .left{
-                startPoint = CGPointMake(CGRectGetMinX(contView.frame) - 5, CGRectGetMinY(contView.frame) - 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) - 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                startPoint = CGPoint(x: contView.frame.minX - 5, y: contView.frame.minY - 10)
+                endPoint = CGPoint(x: targetRect.minX - 5, y: targetRect.maxY + self._navHeight + offsetTop)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x - 50, cp.y)
+                controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }else{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame), CGRectGetMinY(contView.frame) - 20)
-                endPoint = CGPointMake(CGRectGetMaxX(targetRect) + 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                startPoint = CGPoint(x: contView.frame.midX, y: contView.frame.minY - 20)
+                endPoint = CGPoint(x: targetRect.maxX + 5, y: targetRect.maxY + self._navHeight + offsetTop)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x + 50, cp.y)
+                controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }
             
             break
             
         case 2:
             if dir == .left{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame) + CGRectGetMidX(contView.frame) / 4, CGRectGetMinY(contView.frame) - 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) + 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                startPoint = CGPoint(x: contView.frame.midX + contView.frame.midX / 4, y: contView.frame.minY - 10)
+                endPoint = CGPoint(x: targetRect.minX + 5, y: targetRect.maxY + self._navHeight + offsetTop)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x - 50, cp.y)
+                controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }else{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame) + CGRectGetMidX(contView.frame) / 4, CGRectGetMinY(contView.frame) - 10)
-                endPoint = CGPointMake(CGRectGetMidX(targetRect) + 5, CGRectGetMaxY(targetRect) + self._navHeight + offsetTop)
+                startPoint = CGPoint(x: contView.frame.midX + contView.frame.midX / 4, y: contView.frame.minY - 10)
+                endPoint = CGPoint(x: targetRect.midX + 5, y: targetRect.maxY + self._navHeight + offsetTop)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x + 50, cp.y)
+                controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }
 
             break
             
         case 3:
             if dir == .left{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame) - CGRectGetMidX(contView.frame) / 4, CGRectGetMaxY(contView.frame) + 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) + 5, CGRectGetMinY(targetRect) + self._navHeight + offsetBottom)
+                startPoint = CGPoint(x: contView.frame.midX - contView.frame.midX / 4, y: contView.frame.maxY + 10)
+                endPoint = CGPoint(x: targetRect.minX + 5, y: targetRect.minY + self._navHeight + offsetBottom)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x - 50, cp.y)
+                controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }else{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame) - CGRectGetMidX(contView.frame) / 4, CGRectGetMaxY(contView.frame) + 10)
-                endPoint = CGPointMake(CGRectGetMaxX(targetRect), CGRectGetMinY(targetRect) + self._navHeight + offsetBottom)
+                startPoint = CGPoint(x: contView.frame.midX - contView.frame.midX / 4, y: contView.frame.maxY + 10)
+                endPoint = CGPoint(x: targetRect.maxX, y: targetRect.minY + self._navHeight + offsetBottom)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x + 50, cp.y)
+                controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }
 
             break
         case 4:
             if dir == .left{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame) + CGRectGetMidX(contView.frame) / 4, CGRectGetMaxY(contView.frame) + 20)
-                endPoint = CGPointMake(CGRectGetMidX(targetRect) + 5, CGRectGetMinY(targetRect) + self._navHeight + offsetBottom)
+                startPoint = CGPoint(x: contView.frame.midX + contView.frame.midX / 4, y: contView.frame.maxY + 20)
+                endPoint = CGPoint(x: targetRect.midX + 5, y: targetRect.minY + self._navHeight + offsetBottom)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x + 50, cp.y)
+                controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }else{
-                startPoint = CGPointMake(CGRectGetMidX(contView.frame), CGRectGetMaxY(contView.frame) + 10)
-                endPoint = CGPointMake(CGRectGetMinX(targetRect) - 5, CGRectGetMidY(targetRect) + self._navHeight + offsetBottom)
+                startPoint = CGPoint(x: contView.frame.midX, y: contView.frame.maxY + 10)
+                endPoint = CGPoint(x: targetRect.minX - 5, y: targetRect.midY + self._navHeight + offsetBottom)
 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
-                controlPoint = CGPointMake(cp.x - 50, cp.y)
+                controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }
 
             break
@@ -413,14 +412,14 @@ class GDOverlay: UIView {
         animateArrow(lineShape)
     }
     
-    func drawLine(startPoint: CGPoint, endPoint: CGPoint, controlPoint: CGPoint) -> CAShapeLayer{
+    func drawLine(_ startPoint: CGPoint, endPoint: CGPoint, controlPoint: CGPoint) -> CAShapeLayer{
         let bez = UIBezierPath()
-        bez.moveToPoint(CGPointMake(startPoint.x, startPoint.y))
-        bez.addQuadCurveToPoint(CGPointMake(endPoint.x, endPoint.y), controlPoint: controlPoint)
+        bez.move(to: CGPoint(x: startPoint.x, y: startPoint.y))
+        bez.addQuadCurve(to: CGPoint(x: endPoint.x, y: endPoint.y), controlPoint: controlPoint)
         
         let shape = CAShapeLayer()
-        shape.path = bez.CGPath
-        shape.strokeColor = _arrowColor.CGColor
+        shape.path = bez.cgPath
+        shape.strokeColor = _arrowColor.cgColor
         shape.fillColor = nil
         shape.lineWidth = _arrowWidth
         shape.lineCap = kCALineCapRound
@@ -431,62 +430,62 @@ class GDOverlay: UIView {
         return shape
     }
     
-    func drawHead(endPoint: CGPoint) -> CAShapeLayer{
-        let circlePath: UIBezierPath = UIBezierPath(arcCenter: CGPointMake(endPoint.x, endPoint.y), radius: _headRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 2), clockwise: true)
+    func drawHead(_ endPoint: CGPoint) -> CAShapeLayer{
+        let circlePath: UIBezierPath = UIBezierPath(arcCenter: CGPoint(x: endPoint.x, y: endPoint.y), radius: _headRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 2), clockwise: true)
         let circleShape = CAShapeLayer()
-        circleShape.path = circlePath.CGPath
-        circleShape.fillColor = _headColor.CGColor
+        circleShape.path = circlePath.cgPath
+        circleShape.fillColor = _headColor.cgColor
         
         return circleShape
     }
     
-    func animateArrow(shape1: CAShapeLayer){
+    func animateArrow(_ shape1: CAShapeLayer){
         let arrowAnim = CABasicAnimation(keyPath: "strokeEnd")
         arrowAnim.fromValue = 0.0
         arrowAnim.toValue = 1.0
         arrowAnim.duration = 0.5
         arrowAnim.autoreverses = false
         arrowAnim.fillMode = kCAFillModeForwards
-        arrowAnim.removedOnCompletion = false
+        arrowAnim.isRemovedOnCompletion = false
         
-        shape1.addAnimation(arrowAnim, forKey: nil)
+        shape1.add(arrowAnim, forKey: nil)
     }
     
     //MARK: - Tools
     func screenShotScreen() -> UIImage{
-        let layer = UIApplication.sharedApplication().keyWindow!.layer
-        let scale = UIScreen.mainScreen().scale
-        UIGraphicsBeginImageContextWithOptions(UIApplication.sharedApplication().keyWindow!.frame.size, false, scale);
+        let layer = UIApplication.shared.keyWindow!.layer
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(UIApplication.shared.keyWindow!.frame.size, false, scale);
         
-        layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
         let screenshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return screenshot
+        return screenshot!
     }
     
-    func screenShotView(view: UIView) -> UIImage{
-        let scale = UIScreen.mainScreen().scale
+    func screenShotView(_ view: UIView) -> UIImage{
+        let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, scale)
         let context = UIGraphicsGetCurrentContext()
-        self.layer.renderInContext(context!)
+        self.layer.render(in: context!)
         let screenShot = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext()
         
-        return screenShot
+        return screenShot!
     }
     
-    func unmaskView(toView: UIView, isCircle: Bool){
+    func unmaskView(_ toView: UIView, isCircle: Bool){
         let maskLayer = CAShapeLayer()
-        let path = CGPathCreateMutable()
+        let path = CGMutablePath()
         
         let radius: CGFloat = isCircle ? toView.frame.width * 0.5 : 20
-        let clipPath: CGPathRef = UIBezierPath(roundedRect: CGRectMake(toView.frame.origin.x - 10, toView.frame.origin.y + self._navHeight - 10, toView.frame.width + 20, toView.frame.height + 20), cornerRadius: radius).CGPath
+        let clipPath: CGPath = UIBezierPath(roundedRect: CGRect(x: toView.frame.origin.x - 10, y: toView.frame.origin.y + self._navHeight - 10, width: toView.frame.width + 20, height: toView.frame.height + 20), cornerRadius: radius).cgPath
         
-        CGPathAddPath(path, nil, clipPath)
-        CGPathAddRect(path, nil, CGRectMake(0, 0, self.frame.width, self.frame.height))
+        path.addPath(clipPath)
+        path.addRect(CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         
-        maskLayer.backgroundColor = UIColor.blackColor().CGColor
+        maskLayer.backgroundColor = UIColor.black.cgColor
         maskLayer.path = path
         maskLayer.fillRule = kCAFillRuleEvenOdd
         
@@ -494,7 +493,7 @@ class GDOverlay: UIView {
         self.clipsToBounds = false
     }
     
-    func setSection(targetPoint: CGPoint) -> Int{
+    func setSection(_ targetPoint: CGPoint) -> Int{
         let centerPoint: CGPoint = superView.center
         
         if targetPoint == centerPoint{
@@ -512,27 +511,27 @@ class GDOverlay: UIView {
         }
     }
     
-    func setSectionPoint(section: Int, toView: UIView) -> [NSLayoutConstraint]{
+    func setSectionPoint(_ section: Int, toView: UIView) -> [NSLayoutConstraint]{
         let dynamicSpace = CGFloat(arc4random_uniform(20) + 100)
         switch section {
         case 0, 1:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .CenterX, relatedBy: .Equal, toItem: superView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .Top, relatedBy: .Equal, toItem: self.helpView, attribute: .Bottom, multiplier: 1.0, constant: dynamicSpace)
+            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: superView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let y = NSLayoutConstraint(item: self.contView, attribute: .top, relatedBy: .equal, toItem: self.helpView, attribute: .bottom, multiplier: 1.0, constant: dynamicSpace)
             
             return [x, y]
         case 2:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .CenterX, relatedBy: .Equal, toItem: superView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .Top, relatedBy: .Equal, toItem: self.helpView, attribute: .Bottom, multiplier: 1.0, constant: dynamicSpace)
+            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: superView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let y = NSLayoutConstraint(item: self.contView, attribute: .top, relatedBy: .equal, toItem: self.helpView, attribute: .bottom, multiplier: 1.0, constant: dynamicSpace)
             
             return [x, y]
         case 3:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .CenterX, relatedBy: .Equal, toItem: superView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .Bottom, relatedBy: .Equal, toItem: self.helpView, attribute: .Top, multiplier: 1.0, constant: -dynamicSpace)
+            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: superView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let y = NSLayoutConstraint(item: self.contView, attribute: .bottom, relatedBy: .equal, toItem: self.helpView, attribute: .top, multiplier: 1.0, constant: -dynamicSpace)
             
             return [x, y]
         case 4:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .CenterX, relatedBy: .Equal, toItem: superView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .Bottom, relatedBy: .Equal, toItem: self.helpView, attribute: .Top, multiplier: 1.0, constant: -dynamicSpace)
+            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: superView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let y = NSLayoutConstraint(item: self.contView, attribute: .bottom, relatedBy: .equal, toItem: self.helpView, attribute: .top, multiplier: 1.0, constant: -dynamicSpace)
             
             return [x, y]
             
@@ -545,13 +544,13 @@ class GDOverlay: UIView {
 
 extension GDOverlay{
     var topView: UIView{
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.window!
     }
     
-    func calculateNavHeight(vc: UIViewController) -> CGFloat{
+    func calculateNavHeight(_ vc: UIViewController) -> CGFloat{
         if let nav = vc.navigationController{
-            return nav.navigationBar.frame.height + UIApplication.sharedApplication().statusBarFrame.height
+            return nav.navigationBar.frame.height + UIApplication.shared.statusBarFrame.height
         }
         return 0.0
     }

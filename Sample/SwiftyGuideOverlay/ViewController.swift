@@ -17,17 +17,17 @@ class ViewController: UIViewController, SkipOverlayDelegate {
     @IBOutlet weak var button3: UIButton!
     
     var o: GDOverlay!
-
-    override func viewDidAppear(animated: Bool){
+    
+    override func viewDidAppear(_ animated: Bool){
         //Create an instance of GDOverlay to setup help view
         o = GDOverlay()
         
     /////appereance customizations
-        o.arrowColor = UIColor.redColor()
+        o.arrowColor = UIColor.red
         o.showBorder = false
-        o.boxBackColor = UIColor.clearColor()
+        o.boxBackColor = UIColor.clear
 
-//        o.highlightView = false
+//        o.highlightView = true
 //        o.arrowWidth = 2.0
 //        o.backColor = UIColor.blueColor()
 //        o.boxBorderColor = UIColor.blackColor()
@@ -75,6 +75,7 @@ class ViewController: UIViewController, SkipOverlayDelegate {
 
         }else if a == 4{
             o.drawOverlay(self.view, containerWidth: 200, descText: "this is switch. switch it!", toView: switch1, isCircle: false)
+            
         }else{
             o.drawOverlay(self.view, containerWidth: 200, descText: "this is another button. helloooooooooooooooooooooooo", toView: button3, isCircle: true)
 
