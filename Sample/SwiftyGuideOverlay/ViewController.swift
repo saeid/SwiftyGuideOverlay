@@ -15,6 +15,7 @@ class ViewController: UIViewController, SkipOverlayDelegate {
     @IBOutlet weak var switch1: UISwitch!
     @IBOutlet weak var lbl: UILabel!
     @IBOutlet weak var button3: UIButton!
+    @IBOutlet weak var navItem: UIBarButtonItem!
     
     var o: GDOverlay!
     
@@ -29,12 +30,12 @@ class ViewController: UIViewController, SkipOverlayDelegate {
 
 //        o.highlightView = true
 //        o.arrowWidth = 2.0
-//        o.backColor = UIColor.blueColor()
-//        o.boxBorderColor = UIColor.blackColor()
-//        o.headColor = UIColor.whiteColor()
+//        o.backColor = UIColor.blue
+//        o.boxBorderColor = UIColor.black
+//        o.headColor = UIColor.white
 //        o.headRadius = 6
-//        o.labelFont = UIFont.systemFontOfSize(12)
-//        o.labelColor = UIColor.greenColor()
+//        o.labelFont = UIFont.systemFont(ofSize: 12)
+//        o.labelColor = UIColor.green
         
 //        currently only LineType.line_bubble and LineType.dash_bubble
 //        o.lineType = LineType.line_bubble
@@ -76,9 +77,19 @@ class ViewController: UIViewController, SkipOverlayDelegate {
         }else if a == 4{
             o.drawOverlay(self.view, containerWidth: 200, descText: "this is switch. switch it!", toView: switch1, isCircle: false)
             
-        }else{
+        }else if a == 5{
             o.drawOverlay(self.view, containerWidth: 200, descText: "this is another button. helloooooooooooooooooooooooo", toView: button3, isCircle: true)
-
+        }else{
+            /*view of navbar item needs to be corrected before sending for overlay
+                this just do the trick. just remember to remove any extera views after you're done!
+                you can think of better ways to get this view for sure! just do it. it's a sample
+            */
+            let vv = navItem.value(forKey: "view") as! UIView
+            
+            let newView = UIView(frame: CGRect(x: vv.frame.origin.x, y: vv.frame.midY - o.navHeight, width: vv.frame.width, height: vv.frame.height))
+            self.view.addSubview(newView)
+            
+            o.drawOverlay(self.view, containerWidth: 200, descText: "this is navigation bar item", toView: newView, isCircle: false)
             a = 0
         }
     }
