@@ -1,5 +1,9 @@
 # SwiftyHelpOverlay
-Animated and customizable overlay to show any info over UI views at run time and real-time!
+App Intro / instruction component to show data over app UI at run time and real-time!
+
+Easy to use, Animated and customizable setup.
+
+Show animated lines to the desire object with related details.
 
 Demo project included for details 
 
