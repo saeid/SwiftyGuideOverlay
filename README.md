@@ -13,17 +13,15 @@ Demo project included for details
 
 
 # Requirements
-xcode 8+
-
-swift 3+
-
-iOS 8+
+- Xcode 8+
+- Swift 3+
+- iOS 8+
 
 
 # Installation
 Install manually
 ------
-Drag "GDSwiftyPopup.swift" to your project and use!
+Drag `GDSwiftyPopup.swift` to your project and use!
 
 Install using Cocoapods
 ------
@@ -31,12 +29,13 @@ Soon!
 
 
 # How to use
-```
-        // add SkipOverlayDelegate delegate to ViewController 
+
+```swift
+        // Include SkipOverlayDelegate protocol to ViewController 
 
         func onSkipSignal(){
-            //skip each item here
-            //check sample project for more info on this
+            // Skip each item here
+            // Check sample project for more info on this
 
             o.drawOverlay(self.view, containerWidth: 200, descText: "this is a cool button. press it for blah blah", toView: button1, isCircle: false)
         }
@@ -47,7 +46,7 @@ Soon!
         // do customizations in viewDidAppear()
 
     override func viewDidAppear(_ animated: Bool){
-    /////appereance customizations
+        // Appereance customizations
         o.arrowColor = UIColor.red
         o.showBorder = false
         o.boxBackColor = UIColor.clear
@@ -61,16 +60,16 @@ Soon!
         o.labelFont = UIFont.systemFont(ofSize: 12)
         o.labelColor = UIColor.green
         
-        //currently only LineType.line_bubble and LineType.dash_bubble
+        // Currently only LineType.line_bubble and LineType.dash_bubble
         o.lineType = LineType.line_bubble
         o.lineType = LineType.dash_bubble
         
-        //if view controller has navigation bar use this
-        //to calculate the correct height
+        // If view controller has navigation bar, use it
+        // to calculate the correct height
         o.navHeight = o.calculateNavHeight(self)
 
-        //Always set the delegate for SkipOverlayDelegate
-        //for onSkipSignal() function call
+        // Always set the delegate for SkipOverlayDelegate
+        // for onSkipSignal() function call
         o.delegate = self
         
         self.onSkipSignal()
