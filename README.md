@@ -12,13 +12,13 @@ Demo project included for details
 ![1](https://cloud.githubusercontent.com/assets/9967486/21859399/ac3822a6-d841-11e6-9272-64c553630e1c.gif)
 
 
-# Requirements
+## Requirements
 - Xcode 8+
 - Swift 3+
 - iOS 8+
 
 
-# Installation
+## Installation
 Install manually
 ------
 Drag `GDSwiftyPopup.swift` to your project and use!
@@ -28,22 +28,22 @@ Install using Cocoapods
 Soon!
 
 
-# How to use
+## How to use
 
 ```swift
-        // Include SkipOverlayDelegate protocol to ViewController 
+    // Include SkipOverlayDelegate protocol to ViewController 
 
-        func onSkipSignal(){
-            // Skip each item here
-            // Check sample project for more info on this
+    func onSkipSignal(){
+        // Skip each item here
+        // Check sample project for more info on this
 
-            o.drawOverlay(self.view, containerWidth: 200, descText: "this is a cool button. press it for blah blah", toView: button1, isCircle: false)
-        }
+        o.drawOverlay(self.view, containerWidth: 200, descText: "this is a cool button. press it for blah blah", toView: button1, isCircle: false)
+    }
 
-        // create an instance of GDOverlay()
-        var o = GDOverlay()
-        
-        // do customizations in viewDidAppear()
+    // create an instance of GDOverlay()
+    var o = GDOverlay()
+    
+    // do customizations in viewDidAppear()
 
     override func viewDidAppear(_ animated: Bool){
         // Appereance customizations
@@ -75,3 +75,9 @@ Soon!
         self.onSkipSignal()
     }
 ```
+
+
+## Licence
+
+SwiftyHelpOverlay is available under the MIT license. See the [LICENSE.txt](https://github.com/SaeidBsn/SwiftyGuideOverlay/blob/master/Licence.txt) file for more info.
+
