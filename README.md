@@ -21,11 +21,20 @@ Demo project included for details
 ## Installation
 Install manually
 ------
-Drag `GDSwiftyPopup.swift` to your project and use!
+Drag `Source` folder to your project and use!
 
 Install using Cocoapods
 ------
-Soon!
+```
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '9.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+pod 'SwiftyOverlay'
+end
+```
+
 
 
 ## How to use
