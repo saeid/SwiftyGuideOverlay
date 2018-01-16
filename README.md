@@ -36,8 +36,19 @@ Soon!
     func onSkipSignal(){
         // Skip each item here
         // Check sample project for more info on this
+        /// NEW: now with better support for barbutton items - support tableview rows
+        
+        /// TableView
+        o.drawOverlay(to: <#T##UITableView#>, section: <#T##Int#>, row: <#T##Int#>, desc: <#T##String#>)
+        
+        /// UIBarButtonItem
+        o.drawOverlay(to: <#T##UIBarButtonItem#>, desc: <#T##String#>)
 
-        o.drawOverlay(self.view, containerWidth: 200, descText: "this is a cool button. press it for blah blah", toView: button1, isCircle: false)
+        /// Any other views
+        o.drawOverlay(to: <#T##UIView#>, desc: <#T##String#>, isCircle: <#T##Bool#>)
+        
+        /// TabBar Items
+        // Comming soon
     }
 
     // create an instance of GDOverlay()
