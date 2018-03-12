@@ -12,4 +12,4 @@ Demo project included for details
 ![1](https://cloud.githubusercontent.com/assets/9967486/21859399/ac3822a6-d841-11e6-9272-64c553630e1c.gif)
 
 ### This Repo has Moved
-Please use this repo [SwiftyOverlay]: https://github.com/saeid/SwiftyOverlay .
+Please use this repo [SwiftyOverlay](https://github.com/saeid/SwiftyOverlay) .
