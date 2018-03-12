@@ -183,6 +183,36 @@ class GDOverlay: UIView {
         initViews(true)
     }
     
+    public func drawOverlay(to tabbarView: UITabBar, item: Int, desc: String){
+        var targetRect: CGRect? = nil
+        var barView: UIView? = nil
+        
+        var frames = tabbarView.subviews.flatMap { (view: UIView) -> CGRect? in
+            if let view = view as? UIControl {
+                barView = view
+                return view.frame
+            }
+            return nil
+        }
+        frames.sort { $0.origin.x < $1.origin.x }
+        if frames.count > item {
+            targetRect = frames[item]
+        }else{
+            targetRect = frames.last ?? CGRect.zero
+        }
+        guard let rect = targetRect, let barview = barView else { return }
+        let windowRect = barview.convert(rect, to: topView)
+        
+        let v = UIView()
+        v.frame = windowRect
+        self.addSubview(v)
+        
+        helpView = v
+        
+        descLabel.text = desc
+        initViews(false)
+    }
+    
     public func drawOverlay(to tableView: UITableView, section: Int, row: Int, desc: String){
         let indexPath: IndexPath = IndexPath(row: row, section: section)
         let tableRect = tableView.rectForRow(at: indexPath)
@@ -209,7 +239,7 @@ class GDOverlay: UIView {
         descLabel.text = desc
         initViews(isCircle)
     }
-        
+    
     //MARK: - Background View
     fileprivate var backgroundView: UIView!
     private func createBackgroundView(){
@@ -339,13 +369,13 @@ extension GDOverlay{
             if dir == .left{
                 startPoint = CGPoint(x: contView.frame.midX - 20, y: contView.frame.minY - 10)
                 endPoint = CGPoint(x: helpView.frame.midX, y: helpView.frame.maxY + offsetTop)
-
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }else{
                 startPoint = CGPoint(x: contView.frame.midX, y: contView.frame.minY - 20)
                 endPoint = CGPoint(x: helpView.frame.midX + 35, y: helpView.frame.maxY + offsetTop)
-
+                
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }

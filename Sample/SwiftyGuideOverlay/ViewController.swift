@@ -32,7 +32,7 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         navItem = navigationItem.leftBarButtonItem
         navItem2 = navigationItem.rightBarButtonItem
         
-        navItem2.title = "shit"
+        navItem2.title = ""
         navItem.title = "cool"
         
         //Create an instance of GDOverlay to setup help view
@@ -77,21 +77,26 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         a += 1
         
         if a == 1{
-            o.drawOverlay(to: navItem2, desc: "this shit is really coolthis shit is really coolthis shit is really coolthis shit is really coolthis shit is really coolthis shit is really coolthis shit is really cool!")
+            o.drawOverlay(to: navItem2, desc: "This is really cool this is really cool this is really cool this is really cool this  is really cool this is really cool this is really cool!")
             
         }else if a == 2{
-            o.drawOverlay(to: navItem, desc: "this shit is really coolt!")
+            o.drawOverlay(to: navItem, desc: "this  is really coolt!")
             
         }else if a == 3{
-            o.drawOverlay(to: tableView, section: 0, row: 0, desc: "this is nice!")
+            o.drawOverlay(to: tableView, section: 0, row: 0, desc: "This is nice!")
             
         }else if a == 4{
-            o.drawOverlay(to: button1, desc: "this button is shit!")
+            o.drawOverlay(to: button1, desc: "This button is doing some stuff!")
             
         }else if a == 5{
-            o.drawOverlay(to: button2, desc: "this button is awsome!!")
+            o.drawOverlay(to: button2, desc: "This button is awsome!!")
+            
+        }else if a == 6{
+            guard let tabbar = tabBarController?.tabBar else { return }
+            o.drawOverlay(to: tabbar, item: 1, desc: "This is second tabbar item!")
+            
         }else{
-            o.drawOverlay(to: button3, desc: "this button is magic!!")
+            o.drawOverlay(to: button3, desc: "This button is magic!")
             a = 0
         }
     }
