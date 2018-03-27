@@ -279,7 +279,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 54N8PNS7FS;
 				INFOPLIST_FILE = SwiftyGuideOverlay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saeidbsn.SwiftyGuideOverlay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -296,7 +296,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 54N8PNS7FS;
 				INFOPLIST_FILE = SwiftyGuideOverlay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saeidbsn.SwiftyGuideOverlay;
 				PRODUCT_NAME = "$(TARGET_NAME)";

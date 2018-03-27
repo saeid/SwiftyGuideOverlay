@@ -254,14 +254,14 @@ class GDOverlay: UIView {
     }
     
     private func setupGestures(){
-        let tapGest = UITapGestureRecognizer(target: self, action: #selector(GotoNext(_:)))
+        let tapGest = UITapGestureRecognizer(target: self, action: #selector(gotoNext(_:)))
         tapGest.numberOfTapsRequired = 1
         tapGest.numberOfTouchesRequired = 1
         
         self.backgroundView.addGestureRecognizer(tapGest)
     }
     
-    func GotoNext(_ sender: UIGestureRecognizer){
+    @objc private func gotoNext(_ sender: UIGestureRecognizer){
         self.removeFromSuperview()
         self.backgroundView.removeFromSuperview()
         self.delegate?.onSkipSignal()
@@ -278,10 +278,10 @@ class GDOverlay: UIView {
         return lbl
     }()
     
-    private func getLabelHeight() -> CGFloat{
-        let lblHeight = descLabel.frame.height
+    private lazy var getLabelHeight: CGFloat = {
+        let lblHeight = self.descLabel.frame.height
         return lblHeight
-    }
+    }()
     
     //MARK: - Container View
     fileprivate var contView: UIView!
@@ -326,15 +326,11 @@ class GDOverlay: UIView {
 // MARK: - setup constraints
 extension GDOverlay{
     fileprivate func setupLabelConstraints(){
-        let left = NSLayoutConstraint(item: self.descLabel, attribute: .left, relatedBy: .equal, toItem: self.contView, attribute: .left, multiplier: 1.0, constant: 10.0)
-        let right = NSLayoutConstraint(item: self.descLabel, attribute: .right, relatedBy: .equal, toItem: self.contView, attribute: .right, multiplier: 1.0, constant: -10.0)
-        let top = NSLayoutConstraint(item: self.descLabel, attribute: .top, relatedBy: .equal, toItem: self.contView, attribute: .top, multiplier: 1.0, constant: 10.0)
-        let bottom = NSLayoutConstraint(item: self.descLabel, attribute: .bottom, relatedBy: .equal, toItem: self.contView, attribute: .bottom, multiplier: 1.0, constant: -10.0)
-        
-        contView.addConstraints([left, right, top, bottom])
-        
-        let width = NSLayoutConstraint(item: self.descLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: self.contView.frame.width - 10)
-        self.descLabel.addConstraint(width)
+        descLabel.leftAnchor.constraint(equalTo: contView.leftAnchor, constant: 10.0).isActive = true
+        descLabel.rightAnchor.constraint(equalTo: contView.rightAnchor, constant: -10.0).isActive = true
+        descLabel.topAnchor.constraint(equalTo: contView.topAnchor, constant: 10.0).isActive = true
+        descLabel.bottomAnchor.constraint(equalTo: contView.bottomAnchor, constant: -10.0).isActive = true
+        descLabel.widthAnchor.constraint(equalToConstant: contView.frame.width - 10).isActive = true
     }
     
     fileprivate func setupContainerViewConstraints(to point: CGPoint){
@@ -379,7 +375,6 @@ extension GDOverlay{
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }
-            break
         case 2:
             if dir == .left{
                 startPoint = CGPoint(x: contView.frame.midX + contView.frame.midX / 4, y: contView.frame.minY - 10)
@@ -394,7 +389,6 @@ extension GDOverlay{
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }
-            break
         case 3:
             if dir == .left{
                 startPoint = CGPoint(x: contView.frame.midX - contView.frame.midX / 4, y: contView.frame.maxY + 10)
@@ -409,7 +403,6 @@ extension GDOverlay{
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }
-            break
         case 4:
             if dir == .left{
                 startPoint = CGPoint(x: contView.frame.midX + contView.frame.midX / 4, y: contView.frame.maxY + 20)
@@ -424,7 +417,6 @@ extension GDOverlay{
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }
-            break
         default:
             break
         }
@@ -451,7 +443,7 @@ extension GDOverlay{
         }
         animateArrow(lineShape)
     }
-
+    
     fileprivate func setSection(_ targetPoint: CGPoint) -> Int{
         let centerPoint: CGPoint = topView.center
         
@@ -473,27 +465,20 @@ extension GDOverlay{
     fileprivate func setSectionPoint(_ section: Int) -> [NSLayoutConstraint]{
         let dynamicSpace = CGFloat(arc4random_uniform(20) + 100)
         switch section {
-        case 0, 1:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: topView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .top, relatedBy: .equal, toItem: self.helpView, attribute: .bottom, multiplier: 1.0, constant: dynamicSpace)
+        case 0, 1, 2:
+            let x = contView.centerXAnchor.constraint(equalTo: topView.centerXAnchor, constant: 0.0)
+            x.isActive = true
+            let y = contView.topAnchor.constraint(equalTo: helpView.bottomAnchor, constant: dynamicSpace)
+            y.isActive = true
             
             return [x, y]
-        case 2:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: topView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .top, relatedBy: .equal, toItem: self.helpView, attribute: .bottom, multiplier: 1.0, constant: dynamicSpace)
+        case 3, 4:
+            let x = contView.centerXAnchor.constraint(equalTo: topView.centerXAnchor, constant: 0.0)
+            x.isActive = true
+            let y = contView.bottomAnchor.constraint(equalTo: helpView.topAnchor, constant: -dynamicSpace)
+            y.isActive = true
             
             return [x, y]
-        case 3:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: topView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .bottom, relatedBy: .equal, toItem: self.helpView, attribute: .top, multiplier: 1.0, constant: -dynamicSpace)
-            
-            return [x, y]
-        case 4:
-            let x = NSLayoutConstraint(item: self.contView, attribute: .centerX, relatedBy: .equal, toItem: topView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let y = NSLayoutConstraint(item: self.contView, attribute: .bottom, relatedBy: .equal, toItem: self.helpView, attribute: .top, multiplier: 1.0, constant: -dynamicSpace)
-            
-            return [x, y]
-            
         default:
             return []
         }
@@ -514,10 +499,10 @@ extension GDOverlay{
         path.addArrowForm(point: endPoint, controlPoint: controlPoint, width: 5, height: 10)
         path.addQuadCurve(to: startPoint, controlPoint: controlPoint)
         shapeLayer.path = path.cgPath
-
+        
         return shapeLayer
     }
-
+    
     fileprivate func drawLine(startPoint: CGPoint, endPoint: CGPoint, controlPoint: CGPoint) -> CAShapeLayer{
         let bez = UIBezierPath()
         bez.move(to: CGPoint(x: startPoint.x, y: startPoint.y))

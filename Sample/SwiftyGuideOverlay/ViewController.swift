@@ -47,7 +47,7 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         //o.arrowWidth = 2.0
         //o.backColor = UIColor.blue
         //o.showBorder = true
-        //o.boxBackColor = UIColor.green
+        o.boxBackColor = UIColor.gray.withAlphaComponent(0.2)
         //o.boxBorderColor = UIColor.black
         //o.headColor = UIColor.white
         //o.headRadius = 6
