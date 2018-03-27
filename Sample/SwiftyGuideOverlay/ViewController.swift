@@ -32,7 +32,7 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         navItem = navigationItem.leftBarButtonItem
         navItem2 = navigationItem.rightBarButtonItem
         
-        navItem2.title = ""
+        navItem2.title = "Share"
         navItem.title = "cool"
         
         //Create an instance of GDOverlay to setup help view
@@ -44,18 +44,18 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         o.boxBackColor = UIColor.clear
         
         o.highlightView = true
-        //        o.arrowWidth = 2.0
-        //        o.backColor = UIColor.blue
-        //    o.showBorder = true
-        //        o.boxBackColor = UIColor.green
-        //                o.boxBorderColor = UIColor.black
-        //        o.headColor = UIColor.white
-        //        o.headRadius = 6
-        //        o.labelFont = UIFont.systemFont(ofSize: 12)
-        //        o.labelColor = UIColor.green
+        //o.arrowWidth = 2.0
+        //o.backColor = UIColor.blue
+        //o.showBorder = true
+        //o.boxBackColor = UIColor.green
+        //o.boxBorderColor = UIColor.black
+        //o.headColor = UIColor.white
+        //o.headRadius = 6
+        //o.labelFont = UIFont.systemFont(ofSize: 12)
+        //o.labelColor = UIColor.green
         
-        //        currently only LineType.line_bubble and LineType.dash_bubble
-        o.lineType = LineType.dash_bubble
+        /// types are .line_arrow | .line_bubble | .dash_bubble
+        o.lineType = LineType.line_arrow
         
         //Always set the delegate for SkipOverlayDelegate
         //for onSkipSignal() function call

@@ -367,14 +367,14 @@ extension GDOverlay{
         switch section{
         case 0, 1:
             if dir == .left{
-                startPoint = CGPoint(x: contView.frame.midX - 20, y: contView.frame.minY - 10)
+                startPoint = CGPoint(x: contView.frame.midX - 50, y: contView.frame.minY - 10)
                 endPoint = CGPoint(x: helpView.frame.midX, y: helpView.frame.maxY + offsetTop)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
             }else{
                 startPoint = CGPoint(x: contView.frame.midX, y: contView.frame.minY - 20)
-                endPoint = CGPoint(x: helpView.frame.midX + 35, y: helpView.frame.maxY + offsetTop)
+                endPoint = CGPoint(x: helpView.frame.midX + 25, y: helpView.frame.maxY + offsetTop)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
@@ -383,7 +383,7 @@ extension GDOverlay{
         case 2:
             if dir == .left{
                 startPoint = CGPoint(x: contView.frame.midX + contView.frame.midX / 4, y: contView.frame.minY - 10)
-                endPoint = CGPoint(x: helpView.frame.minX + 5, y: helpView.frame.maxY + offsetTop)
+                endPoint = CGPoint(x: helpView.frame.minX - 25, y: helpView.frame.maxY + offsetTop)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
@@ -398,7 +398,7 @@ extension GDOverlay{
         case 3:
             if dir == .left{
                 startPoint = CGPoint(x: contView.frame.midX - contView.frame.midX / 4, y: contView.frame.maxY + 10)
-                endPoint = CGPoint(x: helpView.frame.minX + 5, y: helpView.frame.minY + offsetBottom)
+                endPoint = CGPoint(x: helpView.frame.midX, y: helpView.frame.minY + offsetBottom)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
@@ -419,7 +419,7 @@ extension GDOverlay{
                 controlPoint = CGPoint(x: cp.x + 50, y: cp.y)
             }else{
                 startPoint = CGPoint(x: contView.frame.midX, y: contView.frame.maxY + 10)
-                endPoint = CGPoint(x: helpView.frame.minX - 5, y: helpView.frame.midY + offsetBottom)
+                endPoint = CGPoint(x: helpView.frame.minX - 5, y: helpView.frame.minY + offsetBottom)
                 
                 let cp = calcCenterPoint(startPoint, end: endPoint)
                 controlPoint = CGPoint(x: cp.x - 50, y: cp.y)
@@ -428,22 +428,21 @@ extension GDOverlay{
         default:
             break
         }
-        let lineShape = drawLine(startPoint, endPoint: endPoint, controlPoint: controlPoint)
+        let lineShape: CAShapeLayer!
         var bubbleShape: CAShapeLayer?
         
         switch _lineType{
-        case .dash_arrow:
-            break
         case .dash_bubble:
+            lineShape = drawLine(startPoint: startPoint, endPoint: endPoint, controlPoint: controlPoint)
             lineShape.lineDashPattern = [3, 6]
             bubbleShape = drawHead(endPoint)
-            break
         case .line_arrow:
-            break
+            lineShape = drawArrow(startPoint: startPoint, endPoint: endPoint, controlPoint: controlPoint)
+            lineShape.lineDashPattern = nil
         case .line_bubble:
+            lineShape = drawLine(startPoint: startPoint, endPoint: endPoint, controlPoint: controlPoint)
             lineShape.lineDashPattern = nil
             bubbleShape = drawHead(endPoint)
-            break
         }
         
         self.backgroundView.layer.addSublayer(lineShape)
@@ -452,7 +451,7 @@ extension GDOverlay{
         }
         animateArrow(lineShape)
     }
-    
+
     fileprivate func setSection(_ targetPoint: CGPoint) -> Int{
         let centerPoint: CGPoint = topView.center
         
@@ -502,10 +501,24 @@ extension GDOverlay{
 }
 
 //MARK: - Drawing lines
-var control: CGPoint!
 extension GDOverlay{
-    fileprivate func drawLine(_ startPoint: CGPoint, endPoint: CGPoint, controlPoint: CGPoint) -> CAShapeLayer{
-        control = controlPoint
+    fileprivate func drawArrow(startPoint: CGPoint, endPoint: CGPoint, controlPoint: CGPoint) -> CAShapeLayer{
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.fillColor = nil
+        shapeLayer.strokeColor = _arrowColor.cgColor
+        shapeLayer.lineWidth = _arrowWidth
+        shapeLayer.lineJoin = kCALineCapRound
+        shapeLayer.lineCap = kCALineCapRound
+        
+        let path = UIBezierPath()
+        path.addArrowForm(point: endPoint, controlPoint: controlPoint, width: 5, height: 10)
+        path.addQuadCurve(to: startPoint, controlPoint: controlPoint)
+        shapeLayer.path = path.cgPath
+
+        return shapeLayer
+    }
+
+    fileprivate func drawLine(startPoint: CGPoint, endPoint: CGPoint, controlPoint: CGPoint) -> CAShapeLayer{
         let bez = UIBezierPath()
         bez.move(to: CGPoint(x: startPoint.x, y: startPoint.y))
         bez.addQuadCurve(to: CGPoint(x: endPoint.x, y: endPoint.y), controlPoint: controlPoint)
