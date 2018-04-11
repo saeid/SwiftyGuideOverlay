@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SkipOverlayDelegate: class{
+public protocol SkipOverlayDelegate: class{
     func onSkipSignal()
 }
 
@@ -239,7 +239,7 @@ class GDOverlay: UIView {
         descLabel.text = desc
         initViews(isCircle)
     }
-    
+        
     //MARK: - Background View
     fileprivate var backgroundView: UIView!
     private func createBackgroundView(){

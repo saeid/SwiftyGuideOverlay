@@ -96,8 +96,7 @@ class ViewController: UIViewController, SkipOverlayDelegate{
             o.drawOverlay(to: tabbar, item: 1, desc: "This is second tabbar item!")
             
         }else{
-            o.drawOverlay(to: button3, desc: "This button is magic!")
-            a = 0
+            // close it!
         }
     }
 }
