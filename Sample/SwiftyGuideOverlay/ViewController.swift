@@ -47,7 +47,7 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         //o.arrowWidth = 2.0
         //o.backColor = UIColor.blue
         //o.showBorder = true
-        o.boxBackColor = UIColor.gray.withAlphaComponent(0.2)
+        o.boxBackColor = UIColor.gray.withAlphaComponent(0.7)
         //o.boxBorderColor = UIColor.black
         //o.headColor = UIColor.white
         //o.headRadius = 6
@@ -77,26 +77,54 @@ class ViewController: UIViewController, SkipOverlayDelegate{
         a += 1
         
         if a == 1{
-            o.drawOverlay(to: navItem2, desc: "This is really cool this is really cool this is really cool this is really cool this  is really cool this is really cool this is really cool!")
-            
+            let attribStr = NSAttributedString(string: "You can add a fullscreen overlay with an attributed string to present info to the user!", attributes: [
+                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+            o.drawOverlay(desc: attribStr)
+
         }else if a == 2{
-            o.drawOverlay(to: navItem, desc: "this  is really coolt!")
+            let attribStr = NSAttributedString(string: "This is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar ItemThis is a UINavigationBar Item!", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+            o.drawOverlay(to: navItem2, desc: attribStr)
             
         }else if a == 3{
-            o.drawOverlay(to: tableView, section: 0, row: 0, desc: "This is nice!")
+            let attribStr = NSAttributedString(string: "This is another UINavigationBar Item!", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+            o.drawOverlay(to: navItem, desc: attribStr)
             
         }else if a == 4{
-            o.drawOverlay(to: button1, desc: "This button is doing some stuff!")
-            
+            let attribStr = NSAttributedString(string: "This is a TableView Cell!", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+            o.drawOverlay(to: tableView, section: 0, row: 0, desc: attribStr)
         }else if a == 5{
-            o.drawOverlay(to: button2, desc: "This button is awsome!!")
-            
+            let attribStr = NSAttributedString(string: "This is a UIButton!", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+            o.drawOverlay(to: button1, desc: attribStr)
         }else if a == 6{
+            let attribStr = NSAttributedString(string: "This is another UIButton!", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+            o.drawOverlay(to: button2, desc: attribStr)
+        }else if a == 7{
+            let attribStr = NSAttributedString(string: "This is a UITabbar Item!", attributes: [
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14),
+                NSAttributedString.Key.foregroundColor: UIColor.white
+                ])
+
             guard let tabbar = tabBarController?.tabBar else { return }
-            o.drawOverlay(to: tabbar, item: 1, desc: "This is second tabbar item!")
+            o.drawOverlay(to: tabbar, item: 1, desc: attribStr)
             
-        }else{
-            // close it!
+            a = 0
         }
     }
 }

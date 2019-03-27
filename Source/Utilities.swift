@@ -20,13 +20,13 @@ enum LineDirection: UInt32{
         return maxValue
     }()
     
-    static func randomDir() -> LineDirection {
+    static var randomDir: LineDirection {
         let rand = arc4random_uniform(2)
-        return LineDirection(rawValue: rand)!
+        return LineDirection(rawValue: rand) ?? .left
     }
 }
 
-enum LineType{
+public enum LineType{
     case line_arrow
     case line_bubble
     case dash_bubble
@@ -34,9 +34,11 @@ enum LineType{
 
 // MARK: - helpers
 extension GDOverlay{
-    var topView: UIView{
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.window!
+    var topView: UIView?{
+        if let keywindow = UIApplication.shared.keyWindow{
+            return keywindow
+        }
+        return nil
     }
     
     func calculateNavHeight(_ vc: UIViewController) -> CGFloat{
@@ -46,7 +48,6 @@ extension GDOverlay{
         return 0
     }
 }
-
 
 extension CGRect {
     var center: CGPoint {
@@ -67,7 +68,7 @@ extension UIBezierPath{
         addLine(to: point)
     }
     
-    func calculatePointFromPoint(point: CGPoint, angle: CGFloat, distance: CGFloat) -> CGPoint{
+    private func calculatePointFromPoint(point: CGPoint, angle: CGFloat, distance: CGFloat) -> CGPoint{
         return CGPoint(x: CGFloat(Float(point.x) + cosf(Float(angle)) * Float(distance)), y: CGFloat(Float(point.y) + sinf(Float(angle)) * Float(distance)))
     }
 }
